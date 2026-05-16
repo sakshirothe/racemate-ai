@@ -10,7 +10,7 @@
 ```bash
 npm install
 npm run dev
-# Open http://localhost:3000
+https://racemate-ai.vercel.app
 ```
 
 No API keys needed — works fully in demo mode.
