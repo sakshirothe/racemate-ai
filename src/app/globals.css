@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;600;700;800&display=swap');
+
+/* ── Root ── */
+:root {
+  --nred:    #ff1e3c;
+  --ncyan:   #00e5ff;
+  --ngreen:  #00ff9d;
+  --nyellow: #ffd000;
+  --nblue:   #0099ff;
+  --void:    #03030a;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--void);
+  color: #e8eaf0;
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,30,60,0.4); border-radius: 2px; }
+* { scrollbar-width: thin; scrollbar-color: rgba(255,30,60,0.3) transparent; }
+
+/* ── Global ambient background ── */
+.ambient-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -5%, rgba(255,30,60,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(0,153,255,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(0,229,255,0.05) 0%, transparent 50%);
+}
+
+/* Grid overlay */
+.grid-overlay {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,30,60,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,30,60,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* ── Glass card ── */
+.hud-card {
+  background: rgba(10,10,20,0.80);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.hud-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+}
+.hud-card:hover {
+  border-color: rgba(255,30,60,0.20);
+  box-shadow: 0 0 40px rgba(255,30,60,0.06), 0 16px 48px rgba(0,0,0,0.5);
+}
+
+/* ── Neon text ── */
+.t-red    { color: var(--nred);    text-shadow: 0 0 20px rgba(255,30,60,0.6); }
+.t-cyan   { color: var(--ncyan);   text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+.t-green  { color: var(--ngreen);  text-shadow: 0 0 20px rgba(0,255,157,0.5); }
+.t-yellow { color: var(--nyellow); text-shadow: 0 0 20px rgba(255,208,0,0.5); }
+.t-blue   { color: var(--nblue);   text-shadow: 0 0 20px rgba(0,153,255,0.5); }
+
+/* ── Orbitron shorthand ── */
+.orb  { font-family: 'Orbitron', monospace; }
+.raj  { font-family: 'Rajdhani', sans-serif; }
+.exo  { font-family: 'Exo 2', sans-serif; }
+
+/* ── Progress bar ── */
+.bar-track { background: rgba(255,255,255,0.05); border-radius: 3px; height: 4px; overflow: hidden; }
+.bar-fill  { height: 100%; border-radius: 3px; transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+
+/* ── Scan line anim ── */
+@keyframes scanLine {
+  0%,100% { transform: translateY(-100%); opacity: 0; }
+  10%,90% { opacity: 0.4; }
+  50%     { transform: translateY(100vh); opacity: 0.4; }
+}
+.scan-line {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 9999; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,30,60,0.6), transparent);
+  animation: scanLine 6s linear infinite;
+}
+
+/* ── Corner brackets on cards ── */
+.bracket::before, .bracket::after {
+  content: ''; position: absolute;
+  width: 14px; height: 14px;
+  border-color: var(--nred);
+  border-style: solid;
+  opacity: 0.5;
+}
+.bracket::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.bracket::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+/* ── Input ── */
+.hud-input {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,30,60,0.2);
+  border-radius: 8px;
+  color: #e8eaf0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+.hud-input:focus {
+  border-color: var(--nred);
+  box-shadow: 0 0 0 1px rgba(255,30,60,0.25), 0 0 24px rgba(255,30,60,0.10);
+}
+.hud-input::placeholder { color: rgba(255,255,255,0.2); }
+
+/* ── Button ── */
+.hud-btn {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 8px;
+}
+.hud-btn-red {
+  background: linear-gradient(135deg, rgba(255,30,60,0.5), rgba(140,10,30,0.4));
+  border: 1px solid rgba(255,30,60,0.5);
+  color: #fff;
+}
+.hud-btn-red:hover {
+  background: rgba(255,30,60,0.65);
+  box-shadow: 0 0 28px rgba(255,30,60,0.4);
+  transform: translateY(-1px);
+}
+.hud-btn-ghost {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: #9ca3af;
+}
+.hud-btn-ghost:hover {
+  border-color: rgba(255,255,255,0.18);
+  color: #e8eaf0;
+}
+
+/* ── Voice waveform bars ── */
+.wave-bar {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--ngreen);
+  box-shadow: 0 0 6px var(--ngreen);
+  transform-origin: bottom;
+  animation: wave 1.2s ease-in-out infinite;
+}
+@keyframes wave {
+  0%,100% { transform: scaleY(0.2); }
+  50%     { transform: scaleY(1); }
+}
+
+/* ── Pulse dot ── */
+.pulse-dot {
+  border-radius: 50%;
+  animation: pulseDot 1.2s ease-in-out infinite;
+}
+@keyframes pulseDot {
+  0%,100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 currentColor; }
+  50%     { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* ── Alert flash ── */
+@keyframes alertFlash {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.3; }
+}
+.alert-flash { animation: alertFlash 0.8s ease-in-out infinite; }
+
+/* ── Intro overlay ── */
+.intro-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: #03030a;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Driver card ── */
+.driver-card {
+  background: rgba(8,8,16,0.9);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
+.driver-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(255,30,60,0.06));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.driver-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255,30,60,0.35);
+  box-shadow: 0 0 50px rgba(255,30,60,0.12), 0 24px 64px rgba(0,0,0,0.6);
+}
+.driver-card:hover::before { opacity: 1; }
+
+/* ── Chat bubbles ── */
+.bubble-user {
+  background: rgba(255,30,60,0.10);
+  border: 1px solid rgba(255,30,60,0.16);
+  border-radius: 14px 2px 14px 14px;
+  color: #f0f2ff;
+}
+.bubble-ai {
+  background: rgba(0,255,157,0.06);
+  border: 1px solid rgba(0,255,157,0.12);
+  border-radius: 2px 14px 14px 14px;
+  color: #d0ffe8;
+}
+
+/* ── Quick prompt ── */
+.qprompt {
+  background: rgba(255,30,60,0.06);
+  border: 1px solid rgba(255,30,60,0.14);
+  border-radius: 8px;
+  color: #d1d5db;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  padding: 8px 12px;
+}
+.qprompt:hover {
+  background: rgba(255,30,60,0.15);
+  border-color: rgba(255,30,60,0.4);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── Track SVG ── */
+.track-glow { filter: drop-shadow(0 0 6px currentColor); }
+
+/* ── Thin border top highlight ── */
+.top-line::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,30,60,0.5), transparent);
+  animation: scanLine 4s ease-in-out infinite;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .orb { letter-spacing: 0.05em !important; }
+}
