@@ -11,12 +11,15 @@ interface Props {
 }
 
 export default function DashboardHeader({ driver, tel, onAdvanceLap, onResetRace, onBackToSelect }: Props) {
-  const accentColor = {
+  if (!driver) return null;
+
+  const TEAM_COLORS: Record<string, string> = {
     "Red Bull Racing":  "#1d4ed8",
     "Scuderia Ferrari": "#dc2626",
     "Mercedes AMG":     "#059669",
     "McLaren Racing":   "#ea580c",
-  }[driver.team] ?? "#ff1e3c";
+  };
+  const accentColor = TEAM_COLORS[driver.team] ?? "#ff1e3c";
 
   return (
     <header className="relative z-20 flex items-center justify-between px-5 py-2.5 border-b border-white/[0.06]"
